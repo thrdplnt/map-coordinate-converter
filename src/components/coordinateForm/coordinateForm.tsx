@@ -87,9 +87,9 @@ const CoordinateForm: React.FC<CoordinateFormProps> = ({
         {/* Form body */}
         <div className="px-4 pb-4 overflow-y-auto flex-1">
           {mode === 'DMS_TO_DD' ? (
-            <DmsToDdForm initialCoordinate={coordinate} onAddToMap={handleAdd} onPreviewChange={onPreviewChange} />
+            <DmsToDdForm initialCoordinate={coordinate} onAddToMap={handleAdd} onPreviewChange={onPreviewChange} isEditMode={isEditMode} />
           ) : (
-            <DdToDmsForm initialCoordinate={coordinate} onAddToMap={handleAdd} onPreviewChange={onPreviewChange} />
+            <DdToDmsForm initialCoordinate={coordinate} onAddToMap={handleAdd} onPreviewChange={onPreviewChange} isEditMode={isEditMode} />
           )}
         </div>
       </div>

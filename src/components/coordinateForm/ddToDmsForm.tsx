@@ -9,19 +9,26 @@ import { convertDDToDms, formatDMS } from '../../utils/coordinateConverter';
 import { DDCoordinate, DMSCoordinate } from '../../types/coordinate';
 
 interface DdToDmsFormProps {
-  /** Initial coordinate values (e.g. from map click) */
+  /** Initial coordinate values (e.g. from map click or marker click) */
   initialCoordinate?: DDCoordinate | null;
-  /** Called when user clicks Add To Maps */
+  /** Called when user clicks Add To Maps / Update */
   onAddToMap: (coordinate: DDCoordinate) => void;
   /** Called when coordinate input changes (for preview marker) */
   onPreviewChange: (coordinate: DDCoordinate | null) => void;
+  /** Whether we are editing an existing marker */
+  isEditMode?: boolean;
 }
 
 /**
  * Form for inputting DD coordinates and converting them to DMS.
  * @param props - DdToDmsFormProps
  */
-const DdToDmsForm: React.FC<DdToDmsFormProps> = ({ initialCoordinate, onAddToMap, onPreviewChange }) => {
+const DdToDmsForm: React.FC<DdToDmsFormProps> = ({
+  initialCoordinate,
+  onAddToMap,
+  onPreviewChange,
+  isEditMode = false,
+}) => {
   const [latitude, setLatitude] = useState(initialCoordinate?.latitude.toFixed(6) ?? '');
   const [longitude, setLongitude] = useState(initialCoordinate?.longitude.toFixed(6) ?? '');
   const [result, setResult] = useState<DMSCoordinate | null>(null);
@@ -96,7 +103,7 @@ const DdToDmsForm: React.FC<DdToDmsFormProps> = ({ initialCoordinate, onAddToMap
       )}
 
       <Button onClick={handleAdd} disabled={!latitude || !longitude} className="w-full mt-1">
-        Add To Maps
+        {isEditMode ? 'Update' : 'Add To Maps'}
       </Button>
     </div>
   );

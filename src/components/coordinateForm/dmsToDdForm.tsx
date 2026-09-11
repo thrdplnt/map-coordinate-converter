@@ -9,19 +9,26 @@ import { convertDmsToDD, ddToDms } from '../../utils/coordinateConverter';
 import { DDCoordinate, DMSCoordinate } from '../../types/coordinate';
 
 interface DmsToDdFormProps {
-  /** Initial coordinate values (e.g. from map click) */
+  /** Initial coordinate values (e.g. from map click or marker click) */
   initialCoordinate?: DDCoordinate | null;
-  /** Called when user clicks Add To Maps */
+  /** Called when user clicks Add To Maps / Update */
   onAddToMap: (coordinate: DDCoordinate) => void;
   /** Called when coordinate input changes (for preview marker) */
   onPreviewChange: (coordinate: DDCoordinate | null) => void;
+  /** Whether we are editing an existing marker */
+  isEditMode?: boolean;
 }
 
 /**
  * Form for inputting DMS coordinates and converting them to DD.
  * @param props - DmsToDdFormProps
  */
-const DmsToDdForm: React.FC<DmsToDdFormProps> = ({ initialCoordinate, onAddToMap, onPreviewChange }) => {
+const DmsToDdForm: React.FC<DmsToDdFormProps> = ({
+  initialCoordinate,
+  onAddToMap,
+  onPreviewChange,
+  isEditMode = false,
+}) => {
   const [latDeg, setLatDeg] = useState('');
   const [latMin, setLatMin] = useState('');
   const [latSec, setLatSec] = useState('');
@@ -34,7 +41,7 @@ const DmsToDdForm: React.FC<DmsToDdFormProps> = ({ initialCoordinate, onAddToMap
 
   const [result, setResult] = useState<DDCoordinate | null>(null);
 
-  /** @description Sync fields when coordinate changes from outside (map click) */
+  /** @description Sync fields when coordinate changes from outside (map click / marker click) */
   useEffect(() => {
     if (!initialCoordinate) return;
     const latDms = ddToDms(initialCoordinate.latitude, true);
@@ -140,7 +147,7 @@ const DmsToDdForm: React.FC<DmsToDdFormProps> = ({ initialCoordinate, onAddToMap
       )}
 
       <Button onClick={handleAdd} disabled={!canAdd} className="w-full mt-1">
-        Add To Maps
+        {isEditMode ? 'Update' : 'Add To Maps'}
       </Button>
     </div>
   );
