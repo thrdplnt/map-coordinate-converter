@@ -60,6 +60,9 @@ npm run dev
 
 # Jalankan unit test
 npm test
+
+# Lint
+npm run lint
 ```
 
 ---
